@@ -1,0 +1,46 @@
+{% extends 'app/main.html' %}
+{% load static %}
+{% block content %}
+
+<h1 class="text-center">Results</h1><br>
+
+<div class="container-fluid">
+    <div class="card card-header">
+        <!--
+        <form method="GET">
+            <div class="row justify-content-around">
+                <div class="col col-mb">
+                    <strong>Filter by:</strong>
+                    {{searchFilter.form}}
+                </div>
+                <button class="col-1 btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </div>
+        </form>
+        -->
+    </div>
+
+    <div class="card card-body container-fluid">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 62vh;">
+            <table class="table table-mb">
+                <tr>
+                    <th>Course Name</th>
+                    <th>Module</th>
+                    <th>Marks</th>
+                    <th colspan="2">Date and Time</th>
+                </tr>
+                {% for i in Results %}
+                    <tr>
+                        <td>{{ i.module.course.name }}</td>
+                        <td>{{ i.module.name }}</td>
+                        <td>{{ i.marks }}</td>
+                        <td>{{ i.time }}</td>
+                        <td><a class="btn btn-outline-primary" href="{% url 'resultDetails' i.id %}">View</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

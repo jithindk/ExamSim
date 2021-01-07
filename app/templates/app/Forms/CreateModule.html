@@ -1,0 +1,25 @@
+{% extends 'app/main.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-9">
+        <div class="card">
+            <h3 class="card-header card-title">Create module for course {{Course.name}} :</h3>
+            <p class="card-subtitle text-info">You can add questions later</p>
+            <br>
+            
+            <div class="card-body">
+                <form action="" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-success float-end" type="submit">Submit</button>
+                </form>
+            </div> 
+            
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'app/main.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-9">
+        <div class="card">
+            <h3 class="card-header card-title">Edit {{name}}: {{item}}</h3>
+            <div class="card-body">
+                <form action="" method="POST">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-success float-end" type="submit">Submit</button>
+                </form>
+            </div> 
+        </div>
+    </div>
+</div>
+
+{% endblock %}

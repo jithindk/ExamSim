@@ -1,0 +1,76 @@
+{% extends 'app/main.html' %}
+
+{% block content %}
+
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+
+<div class="card container-fluid">
+    <h1 class="card-title">{{Module.name}}</h1>
+
+    <div class="card-body">
+        <form class="card" action="{% url 'exam' Module.id i %}" method="POST">
+            {% csrf_token %}
+            <h4 class="card-title">Question no.  {{i}} </h4>
+            <h4 class="card-title">{{Q.Q}}</h4><br>
+            <p class="card-subtitle text-muted">Pick an option:</p>
+            <br>
+            <div class="card-body">
+                <div class="row justify-content-left" id="op1">
+                    <input class="col-2" type="radio" id="opt1" name="opt" value="1">
+                    <label class="col" for="opt1">{{Q.opt1}}</label>
+                </div>
+                <div class="row justify-content-left" id="op2">
+                    <input class="col-2" type="radio" id="opt2" name="opt" value="2">
+                    <label class="col" for="opt2">{{Q.opt2}}</label>
+                </div>
+                <div class="row justify-content-left" id="op3">
+                    <input class="col-2" type="radio" id="opt3" name="opt" value="3">
+                    <label class="col" for="opt3">{{Q.opt3}}</label>
+                </div>
+                <div class="row justify-content-left" id="op4">
+                    <input class="col-2" type="radio" id="opt4" name="opt" value="4">
+                    <label class="col" for="opt4">{{Q.opt4}}</label>
+                </div>
+            </div>
+            <button type="button" name="checkAnswer" id="checkAnswer" onclick="myFunction()">Submit</button>
+            <br><br>
+
+            <div class="hidden" id="hidden">
+                <div class="card container-fluid">
+                    <h5 class="card-title">Correct: {{Q.Correct}}</h5>
+                    <h5 class="card-title">Reason:</h5>
+                    <p class="card-body">{{Q.Reason}}</p>
+                    <input type="submit" name="submit" value="Next">
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    function myFunction()
+    {
+        document.getElementById('hidden').style.display = 'block';
+        document.getElementById('checkAnswer').style.visibility = 'hidden';
+
+        var ch = ['1','2','3','4']
+        for(var i=0; i<4; ++i)
+        {
+            var temp = document.getElementById('opt'.concat(ch[i]))
+            temp.style.visibility = 'hidden';
+            if(temp.checked){
+                document.getElementById('op'.concat(ch[i])).style.background = '#ff0000';
+            }
+        }
+
+        document.getElementById('op'.concat({{Q.Correct}})).style.background = '#74cfbf';
+    }
+</script>
+
+{% endblock %}

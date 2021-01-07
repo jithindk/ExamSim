@@ -1,0 +1,148 @@
+{% extends 'app/main.html' %}
+{% load static %}
+{% block content %}
+
+<body id="bg" style="background-image: url('{% static "images/dashboard.jpg" %}')";></body>
+<div class="row justify-content-around" >
+    
+    <div class="col-md-4">  <!-- Profile. -->
+        <div class="card" style="background-color: #ffffff; opacity: 0.9;">
+            <h5 class="card-header">Profile: {{user.username}}</h5>
+            <table class="table table-mb">
+                <tr>
+                    <th>Name:</th>
+                    <td>{{user.first_name}} {{user.last_name}}</td>
+                </tr>
+                <tr>
+                    <th>Email:</th>
+                    <td>{{user.email}}</td>
+                </tr>
+            </table>
+    
+            <div class="card-footer">
+                <div class="row justify-content-around">
+                    <div class="col">
+                        <a href="{% url 'updateUser' %}" class="btn btn-info">Edit profile</a>
+                    </div>
+                    <div class="col">
+                        <a href="{% url 'deleteUser' %}" class="btn btn-danger">Delete user</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-7">  <!-- last -->
+        <div class="card" style="background-color: #ffffff; opacity: 0.9;">
+            <h5 class="card-header">Previous Tests:</h5>
+            <div class="card-body">
+                {% if R_len == 0 %}
+                    <br><br><br>
+                    <div class="alert alert-info">
+                        <h4>You have not taken a test yet!</h4>
+                    </div>
+                    <br><br>
+                {% else %}
+                    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 30vh;">
+                        <table class="table table-bordered table-mb">
+                            <tr>
+                                <th>Course</th>
+                                <th>Module</th>
+                                <th>Marks</th>
+                                <th>Time</th>
+                            </tr>
+                            {% for r in Results %}
+                                <tr>
+                                    <td>{{r.module.course}}</td>
+                                    <td>{{r.module}}</td>
+                                    <td>{{r.marks}}</td>
+                                    <td>{{r.time}}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+</div>
+<br><br>
+<div class="row justify-content-center">
+
+    <div class="col">  <!-- Your courses -->
+        <div class="card" style="background-color: #ffffff; opacity: 0.9;">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col"><h5>Courses you created</h5></div>
+                    <div class="col"><a class="btn-lg btn-success" href="{% url 'createCourse' user.id %}">Create new Course</a></div>
+                </div>
+            </div>
+            <div class="card-body">
+                {% if C_len == 0 %}
+                    <br><br><br>
+                    <div class="alert alert-info">
+                        <h4>You have not created a Course yet!</h4>
+                    </div>
+                    <br><br><br>
+                {% else %}
+                <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 35vh;">
+                    <table class="table table-bordered table-mb">
+                    <tr>
+                        <th>Course Name</th>
+                        <th>View</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </tr>
+                    {% for c in Courses %}
+                        <tr>
+                            <td>{{c.name}}</td>
+                            <td><a class="btn btn-outline-primary" href="{% url 'courseDetails' c.id %}">view</a></td>
+                            <td><a class="btn btn-mb btn-warning" href="{% url 'updateCourse' c.id %}">Update</a></td>
+                            <td><a class="btn btn-mb btn-danger" href="{% url 'deleteCourse' c.id %}">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col">  <!-- Your courses -->
+        <div class="card"style="background-color: #ffffff; opacity: 0.9;">
+            <h5 class="card-header">Courses you've taken</h5>
+            <div class="card-body">
+                {% if T_len == 0 %}
+                    <br><br>
+                    <div class="alert alert-info">
+                        <h4>You have not taken a course yet!</h4>
+                        <h4>Please go to course catalogue and select a course.</h4>
+                        <h4>New courrses are added here as you take the first test in that course.</h4>
+                    </div>
+                    <br><br>
+                {% else %}
+                <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 35vh;">
+                    <table class="table table-bordered table-mb">
+                        <tr>
+                            <th>Course Name</th>
+                            <th>Modules</th>
+                            <th>Continue</th>
+                        </tr>
+                        {% for t in Taken %}
+                            <tr>
+                                <td>{{t.course}}</td>
+                                <td>{{t.course.modules}}</td>
+                                <td><a class="btn btn-mb btn-info" href="{% url 'courseDetails' t.course.id %}">Continue</a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}

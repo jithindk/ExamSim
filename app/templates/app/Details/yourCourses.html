@@ -1,0 +1,33 @@
+{% extends 'app/main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="card container-fluid">
+    <div class="row card-header">
+        <h1 class="col h1">{{ Course }}</h1>
+        <a href="" class=" col-2 btn btn-lg btn-info">View</a>
+    </div>
+
+    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 50vh;">
+        <table class="table table-bordered table-mb">
+            <tr>
+                <th>Module</th>
+                <th>Attempts</th>
+                <th>High score</th>
+                <th>Total marks</th>
+            </tr>
+            {% load index %}
+            {% for m in Modules %}
+            <tr>
+                <td>{{ m.name }}</td>
+                <td>{{ Attempts|index:forloop.counter0 }}</td>
+                <td>{{ HighScore|index:forloop.counter0 }}</td>
+                <td>{{ m.questions }}</td>
+                <td><a href="{% url 'exam' m.id 0 %}" class="btn btn-outline-primary">Try Again</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+{% endblock %}

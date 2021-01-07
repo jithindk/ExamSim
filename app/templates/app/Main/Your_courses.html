@@ -1,0 +1,41 @@
+{% extends 'app/main.html' %}
+
+{% block content %}
+
+<h1 class="text-center">Courses You've Taken</h1><br>
+
+<div class="container-fluid">
+    <div class="card card-header row-md">
+        <span></span>
+        <!--
+        <form method="GET">
+            <div class="row justify-content-around">
+                <button class="col-3 btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="col-7 form-control mr-sm-2" type="search" placeholder="I'll add more feilds later" aria-label="Search">
+            </div>
+        </form>
+        -->
+    </div>
+
+    <div class="card card-body container-fluid">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 62vh;">
+            <table class="table table-mb table-hover">
+                <tr>
+                    <th>Course Name</th>
+                    <th>Modules</th>
+                    <th>View</th>
+                </tr>
+                {% for i in Taken %}
+                    <tr>
+                        <td>{{i.course.name}}</td>
+                        <td>{{i.course.modules}}</td>
+                        <td><a class="btn btn-outline-primary" href="{% url 'takenCourses' i.id %}">view</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'app/main.html' %}
+{% load static %}
+{% block content %}
+
+<h1 class="text-center">Course list</h1><br>
+<!--Remove next line-->
+<!--<h4 class="text-warning">These are dummy data for now, plz update the database before presentation.</h4><br>-->
+
+<div class="container-fluid">
+    <div class="card card-header">
+        <form method="GET">
+            <div class="row">
+                <div class="col col-mb">
+                    <div class="row justify-content-start">
+                        <strong class="col-2">Filter by:</strong>
+                        <div class="col-2">{{searchFilter.form.name.label}}:</div>
+                        <div class="col-3">{{searchFilter.form.name}}</div>
+                        <div class="col dropdown">
+                            <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{searchFilter.form.author.label}}
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {{searchFilter.form.author}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-2 dropdown">
+                    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">More Filters</button>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item">{{searchFilter.form.start_date.label}}{{searchFilter.form.start_date}}</div>
+                        <div class="dropdown-item">{{searchFilter.form.stop_date.label}}{{searchFilter.form.stop_date}}</div>
+                        <div class="dropdown-item">{{searchFilter.form.Des_contains.label}}{{searchFilter.form.Des_contains}}</div>
+                    </div>
+                </div>
+                <button class="col col-2 btn btn-success my-sm-0" type="submit">Search</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="card card-body container-fluid">
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 62vh;">
+            <table class="table table-bordered table-mb table-hover"">
+                <tr>
+                    <th>Course Name</th>
+                    <th>Author</th>
+                    <th>Description</th>
+                    <th colspan="2">Date Created</th>
+                </tr>
+                {% for i in Courses %}
+                    <tr>
+                        <td>{{i.name}}</td>
+                        <td>{{i.author.username}}</td>
+                        <td>{{i.description}}</td>
+                        <td>{{i.date_Created}}</td>
+                        <td><a class="btn btn-outline-primary" href="{% url 'courseDetails' i.id %}">view</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

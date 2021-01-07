@@ -1,0 +1,87 @@
+{% extends 'app/main.html' %}
+
+{% block content %}
+
+<div class="card container-fluid">
+    <div class="row card-header">
+        <h2 class="col h2">{{Module.name}}</h2>
+        {% if request.user == Module.course.author %}
+            <a class="col-1 btn-lg btn-warning" href="{% url 'updateModule' Module.id %}">Update</a><span class="col-1"></span>
+            <a class="col-1 btn-lg btn-danger" href="{% url 'deleteModule' Module.id %}">Delete</a>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        {% if Module.description is None %}
+        <p>
+            No description.
+            <a class="col btn-sm btn-info" href="{% url 'updateModule' Module.id %}">Add Description</a>
+        </p>
+        {% else %}
+
+        <p>{{Module.description}}</p>
+        {% endif %}
+        
+
+        {% if Module.materials is None %}
+        <p>
+            No extra materials.
+            <a class="col btn-sm btn-info" href="{% url 'updateModule' Module.id %}">Add Extra Materials</a>
+        </p>
+        
+        {% else %}
+        <p>Extra Materials: <a href="{{Module.materials}}" target="_blank">{{Module.materials}}</a></p>
+        {% endif %}
+    </div>
+
+    <div class="card-title bg-light row justify-content-center">
+        <h3 class="col h3">QUESTIONS</h3>
+        {% if request.user == Module.course.author %}
+            <a href="{% url 'createQuestion' Module.id %}" class="col-2 btn btn-lg btn-success">Add Question</a>
+        {% endif %}
+    </div>
+    {% if request.user == Module.course.author %}
+        <div id="accordian">
+            {% for q in Q %}
+            <div class="card container-fluid">
+                <button class="btn bg-light row" data-toggle="collapse", data-target="#q{{ forloop.counter }}" aria-controls="q{{ forloop.counter }}">
+                    <div class="card-title row" id="Q1">
+                        <h4 class="mb-0 col">
+                            Question {{ forloop.counter }}
+                        </h4>
+                        <a href="{% url 'updateQuestion' q.id %}" class="col-1 btn-lg btn-warning">Edit</a>
+                        <span class="col-1"></span>
+                        <a href="{% url 'deleteQuestion' q.id %}" class="col-1 btn-lg btn-danger">Delete</a>
+                    </div>
+                </button>
+
+                <div class="collapse" id="q{{ forloop.counter }}" aria-labelledby="Q1" data-parent="#accordian">
+                    <div class="card-body">
+                        <p class="text-dark">{{ q.Q }}</p>
+                        <p>
+                            <strong>Options:</strong>
+                            <ul>
+                                <li>{{ q.opt1 }}</li>
+                                <li>{{ q.opt2 }}</li>
+                                <li>{{ q.opt3 }}</li>
+                                <li>{{ q.opt4 }}</li>
+                            </ul>
+                        </p>
+                        <p><strong>Correct Option: </strong>{{ q.Correct }}</p>
+                        <p><strong>Reason: </strong>{{q.Reason}}</p>
+                    </div>
+                </div>
+            </div>
+            {% if forloop.counter == 1 %}
+                <script>
+                    document.getElementById("q{{ forloop.counter }}").classList.add('show')
+                </script>
+            {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="row card-footer"><a class="btn btn-info" href="{% url 'exam' Module.id 0 %}">Take test</a></div>
+    {% endif %}
+    <br>
+</div>
+
+{% endblock %}

@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-info" style="background-color: #ffffff; opacity: 0.85;">
+    <div class="container-fluid">
+        <a class="navbar-brand" href=""></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav me-auto">
+                <a class="nav-link active" href="{% url 'home' %}">Home</a>   
+                {% if request.user.is_authenticated %}             
+                    <a class="nav-link active" href="{% url 'dashboard' request.user.id %}">Dashboard</a>
+                {% endif %}
+                <a class="nav-link active" href="{% url 'courses' %}">Course Catalogue</a>
+                {% if request.user.is_authenticated %}
+                    <a class="nav-link active" href="{% url 'yourCourses' request.user.id %}">Courses Taken</a>
+                    <a class="nav-link active" href="{% url 'results' request.user.id %}">Results</a>
+                {% endif %}
+                <a class="nav-link active" href="{% url 'about' %}"> About </a>
+                <a class="nav-link active" href="/admin">Admin</a>
+            </div>
+
+            {% if request.user.is_authenticated %}
+                <div class="navbar-nav">
+                    <a class="btn btn-mb btn-danger" href="{% url 'logout' %}">Sign out</a>
+                </div>
+            {% else %}
+                <div class="navbar-nav">
+                    <a class="btn btn-mb btn-primary" href="{% url 'reg' %}"> Register </a><div class="col-1"></div>
+                    <a class="btn btn-mb btn-success" href="{% url 'login' %}"> Login </a>
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,66 @@
+{% extends 'app/main.html' %}
+
+{% block content %}
+
+<div class="card container-fluid">
+    <div class="row card-header">
+        <h3 class="col h3">{{Course.name}}</h3>
+        {% if request.user == Course.author %}
+            <a class="col-1 btn btn-lg btn-warning" href="{% url 'updateCourse' Course.id %}">Edit</a><span class="col-1"></span>
+            <a class="col-1 btn btn-lg btn-danger" href="{% url 'deleteCourse' Course.id %}">Delete</a>
+        {% endif %}
+    </div>
+    <div class="card-body">
+        {% if Course.description is None %}
+        <p>
+            No description.
+            <a class="col btn-sm btn-info" href="{% url 'updateCourse' Course.id %}">Add Description</a>
+        </p>
+
+        {% else %}
+        <p>{{Course.description}}</p>
+        {% endif %}
+        
+
+        {% if Course.materials is None %}
+        <p>
+            No extra materials.
+            <a class="col btn-sm btn-info" href="{% url 'updateCourse' Course.id %}">Add Extra Materials</a>
+        </p>
+        
+        {% else %}
+        <p>Extra Materials: <a href="{{Course.materials}}" target="_blank">{{Course.materials}}</a></p>
+        {% endif %}
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <h3 class="col">Modules included</h3>
+                {% if request.user == Course.author %}
+                    <a href="{% url 'createModule' Course.id %}" class="col-2 btn btn-lg btn-success">Add module</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 50vh;">
+            <table class="table table-bordered table-mb">
+            <tr>
+                <th>Module Name</th>
+                <th>Questions</th>
+                <th>Materials</th>
+                <th colspan="2">View</th>
+            </tr>
+            {% for m in Modules %}
+                <tr>
+                    <td>{{m.name}}</td>
+                    <td>{{m.questions}}</td>
+                    <td>{{m.materials}}</td>
+                    <td><a class="btn btn-mb btn-info" href="{% url 'moduleDetails' m.id %}">View</a></td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
