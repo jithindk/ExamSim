@@ -14,27 +14,28 @@
         {% if Module.description is None %}
         <p>
             No description.
-            <a class="col btn-sm btn-info" href="{% url 'updateModule' Module.id %}">Add Description</a>
+            {% if request.user == Course.author %}
+            <a class="col btn-sm btn-info" href="{% url 'updateCourse' Course.id %}">Add Description</a>
+            {% endif %}
         </p>
         {% else %}
-
-        <p>{{Module.description}}</p>
+            <p>{{Module.description}}</p>
         {% endif %}
-        
-
+        <br>
         {% if Module.materials is None %}
         <p>
             No extra materials.
-            <a class="col btn-sm btn-info" href="{% url 'updateModule' Module.id %}">Add Extra Materials</a>
+            {% if request.user == Course.author %}
+            <a class="col btn-sm btn-info" href="{% url 'updateCourse' Course.id %}">Add Extra Materials</a>
+            {% endif %}
         </p>
-        
         {% else %}
-        <p>Extra Materials: <a href="{{Module.materials}}" target="_blank">{{Module.materials}}</a></p>
+            <p>Extra Materials: <a href="{{Module.materials}}" target="_blank">{{Module.materials}}</a></p>
         {% endif %}
     </div>
 
     <div class="card-title bg-light row justify-content-center">
-        <h3 class="col h3">QUESTIONS</h3>
+        <h3 class="col-3 h3">QUESTIONS:</h3>
         {% if request.user == Module.course.author %}
             <a href="{% url 'createQuestion' Module.id %}" class="col-2 btn btn-lg btn-success">Add Question</a>
         {% endif %}

@@ -14,22 +14,23 @@
         {% if Course.description is None %}
         <p>
             No description.
+            {% if request.user == Course.author %}
             <a class="col btn-sm btn-info" href="{% url 'updateCourse' Course.id %}">Add Description</a>
+            {% endif %}
         </p>
-
         {% else %}
-        <p>{{Course.description}}</p>
+            <p>{{Course.description}}</p>
         {% endif %}
-        
 
         {% if Course.materials is None %}
         <p>
             No extra materials.
+            {% if request.user == Course.author %}
             <a class="col btn-sm btn-info" href="{% url 'updateCourse' Course.id %}">Add Extra Materials</a>
+            {% endif %}
         </p>
-        
         {% else %}
-        <p>Extra Materials: <a href="{{Course.materials}}" target="_blank">{{Course.materials}}</a></p>
+            <p>Extra Materials: <a href="{{Course.materials}}" target="_blank">{{Course.materials}}</a></p>
         {% endif %}
     </div>
     
