@@ -22,7 +22,7 @@ def Courses(request):
 def Dashboard(request,pk):
     user = User.objects.get(id=pk)
     courses = user.course_set.all()
-    results = user.result_set.all().reverse()
+    results = user.result_set.order_by('id').reverse()
     taken = user.taken_set.all()
     C_len = len(courses)
     T_len = len(taken)
